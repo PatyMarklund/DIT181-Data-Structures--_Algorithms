@@ -1,0 +1,201 @@
+/******************************************************************************
+** DIT181  Datastrukturer och algoritmer, LP3 2021
+** Lab 4: Path finder
+*******************************************************************************/
+
+Group members:
+- Hampus Erlandsson
+- Irina Levkovets
+- Patricia Antunes Marklund
+
+/******************************************************************************
+** 1. List the minimal cost, shortest path, and number of loop iterations
+**    for each of the following invocations.
+******************************************************************************/
+
+> java RunPathFinder ucs AdjacencyGraph graphs/AdjacencyGraph/citygraph-SE.txt Lund Kiruna
+
+loop iterations: 5427
+minimal cost:    1826.0
+shortest path:   Lund -> Löddeköpinge -> Hjärnarp -> Åled -> Oskarström -> ... -> Storuman -> Sorsele -> Jokkmokk -> Gällivare -> Kiruna
+
+> java RunPathFinder ucs NPuzzle 3 "/HFG/BED/C_A/" "/ABC/DEF/GH_/"
+
+loop iterations: 483573
+minimal cost:    31.0
+shortest path:   /HFG/BED/C_A/ -> /HFG/BED/CA_/ -> /HFG/BE_/CAD/ -> /HFG/B_E/CAD/ -> /H_G/BFE/CAD/ -> ... -> /AC_/DBE/GHF/ -> /A_C/DBE/GHF/ -> /ABC/D_E/GHF/ -> /ABC/DE_/GHF/ -> /ABC/DEF/GH_/
+
+> java RunPathFinder astar NPuzzle 3 "/HFG/BED/C_A/" "/ABC/DEF/GH_/"
+
+loop iterations: 32375
+minimal cost:    31.0
+
+> java RunPathFinder ucs NPuzzle 3 "/HGF/BED/C_A/" "/ABC/DEF/GH_/"
+
+loop iterations: 483841
+minimal cost:    N/A
+shortest path:   N/A
+
+> java RunPathFinder ucs GridGraph graphs/GridGraph/AR0011SR.map "23:161" "130:211"
+
+loop iterations: 159327
+minimal cost:    366.40411229460744
+shortest path:   23:161 -> 23:160 -> 23:159 -> 23:158 -> 23:157 -> ... -> 132:207 -> 131:208 -> 131:209 -> 130:210 -> 130:211
+
+> java RunPathFinder astar GridGraph graphs/GridGraph/AR0011SR.map "23:161" "130:211"
+
+loop iterations: 95160
+minimal cost:   366.4041122946075
+
+> java RunPathFinder ucs WordLadder graphs/WordLadder/words-saldo.txt syster broder
+
+loop iterations: 71182
+minimal cost:    11.0
+shortest path:   syster -> sylter -> sylten -> synten -> synden -> ... -> bauden -> bruden -> bröden -> bröder -> broder
+
+> java RunPathFinder astar WordLadder graphs/WordLadder/words-saldo.txt syster broder
+
+loop iterations: 7055
+minimal cost:    11.0
+
+/******************************************************************************
+** 2. For each of the three classes GridGraph, WordLadder, and NPuzzle,
+**    what is the approximate improvement in the number of loop iterations
+**    by running A* instead of UCS?
+**    Try a number of different examples per class.
+******************************************************************************/
+
+GridGraph:  [1.6, 3.57, 3.8, 4.27]
+The improvement is a decrease by a factor of about 3.31 for the number of loop iterations.
+(we used the mean of the numbers above to calculate that number)
+
+WordLadder: [1.5, 53, 170, 276]
+The improvement is a decrease by a factor of about 111.5 for the number of loop iterations.
+(we used the median of the numbers above to calculate that number)
+
+NPuzzle:    [71, 36, 15, 56.8]
+The improvement is a decrease by a factor of about 44.7 for the number of loop iterations.
+(we used the mean of the numbers above to calculate that number)
+
+/******************************************************************************
+** 3. For which of the three classes GridGraph, WordLadder, and NPuzzle,
+**    did the heuristics .guessCost() have the most impact?
+**    Why do you think this is the case?
+******************************************************************************/
+
+Answer: WorldLadder
+Rationale: A* had the most impact for WorldLadder since the decrease factor for loop iterations
+is 111.5 which is the highest of the three. The difference in loop iterations when using A*
+for the WorldLadder depends on the path length: the longer the path, the higher is the decrease
+factor.
+
+/******************************************************************************
+** 4. Give pseudo-code of the following methods that you implemented.
+**    Try to abstract over details which are relevant only for Java.
+**    Make it easy to follow for a human.
+******************************************************************************/
+
+WordLadder.outgoingEdges(String w):
+
+       List<DirectedEdge<String>> stringsInDictionary = new LinkedList<>();
+
+       for i in 0...to (w.length):
+           for each character in charset:
+               char[] wordCharArray = w.toCharArray
+               wordCharArray[i] = character
+               String newWord = String.valueOf(wordCharArray);
+               if dictionary.contains(newWord) and newWord != w:
+                     stringsInDictionary.add(new DirectedEdge<>(w,newWord,1.0));
+
+       return stringsInDictionary
+
+
+WordLadder.guessCost(String w, String u):
+
+        int difference = 0
+
+        int i = 0
+
+        for each character in w and each character in u:
+             if w.character != u.character:
+                 difference ++
+
+        return difference
+
+
+
+GridGraph.guessCost(Coord p, Coord q):
+
+    return sqrt((q.x - p.x)^2 + (q.y - p.y)^2))
+
+/******************************************************************************
+** 5. Give pseudo-code of the method .searchAstar() in PathFinder.
+******************************************************************************/
+
+PathFinder.searchAstar(Node start, Node goal):
+       pqueue = new PriorityQueue(comparing predicted cost)
+        visitedNodes = new HashSet()
+        pqueue.add(new PQEntry for start)
+        while pqueue is not empty:
+            entry = pqueue.remove()
+            if entry.node == goal:
+                SUCCESS:) extract the path and return it
+            for edge in graph.outgoingEdges(entry.node):
+                costToNext = entry.costToHere + edge.weight
+                predicted total cost = guessCost(edge.to, goal) + costToNext
+                pqueue.add(new PQEntry for edge.to)
+           visitedNodes.add(entry.node)
+        FAILURE:( no solution found
+
+/******************************************************************************
+** 6. What are the main differences between your implementations 
+**    of .searchAstar() and .searchUCS()?
+******************************************************************************/
+
+The difference between them is the heuristic in aStar. UCS doesn't have any domain knowledge while
+aStar has the heuristic that provides information on how close it is to goal.
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+Patricia Antunes Marklund: 15 hours
+Hampus Erlandsson: 15 hours
+Irina Levkovets: 15 hours
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+Both the A* and UCS algorithm are unable to find a path for many different combinations. There
+are very few combinations that work for WorldLadder for example.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+-
+
+Wikipedia for guessCost
+Stackoverflow for guessCost in WorldLadder
+YouTube - Computerphile channel
+GeeksForGeeks to look up A* information
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+-
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+The pseudocode was very useful for implementing UCS. We could see how theory was put into practice
+by doing the lab.

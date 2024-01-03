@@ -1,0 +1,102 @@
+
+/******************************************************************************
+** DIT181  Datastrukturer och algoritmer, LP3 2021
+** Lab 2: Autocomplete
+*******************************************************************************/
+
+Group members:
+- Patricia Antunes Marklund
+- Hampus Erlandsson
+- Irina Levkovets
+
+/******************************************************************************
+** 1. Describe how your firstIndexOf() method in RangeBinarySearch.java
+**    finds the first index of a key that equals the search key.
+******************************************************************************/
+This method uses the binary search algorithm and a comparator to dins the first index of a key
+that equals the search key:
+
+1. If the value of the key is lower than the middle element, then we search in the left half
+of the array. The middle element now equals to the middle element of the left half of the array.
+We repeat the same process while the condition of the "while loop" is true.
+2. If the value of the key is higher than the middle element, then we search in the right half
+of the array. The middle element now equals to the middle element of the right half of the array.
+We repeat the same process while the condition of the "while loop" is true.
+3. Otherwise, if the middle element of the array equals to key, then the index of the key is the index
+of the middle element.
+4. Lastly, we return the result.
+
+
+/******************************************************************************
+** 2. State and justify the asymptotic complexity of the operations
+**    in the Autocomplete class in the dictionary size n.
+**    For all Matches and numberOfMatches, the asymptotic complexity
+**    should also depend on the matching terms m.
+**
+**    You may take the number of comparisons as a proxy for the runtime.
+******************************************************************************/
+
+sortDictionary: O(NlogN)
+
+The algorithm that is used here is called Tim Sort which is divide and conquer algorithm. It is based
+on insertion sort and merge sort and it's worst case complexity is O(NlogN).
+
+allMatches: O(MlogM)
+The equation for this method is logN(for the first three methods) + M(the "for" loop) +
+MlogM(for the sorting), where the fastest growing term is MlogM. Therefore the complexity of allMatches is
+O(MlogM).
+
+
+numberOfMatches: O(logn)
+
+The two first functions that we use in this method, firstIndexOf and lastIndexOf are both O(logn),
+which equals 2logn. Since we ignore the constant factors the complexity of these two functions is
+O(logn). The rest of the method has a complexity of O(1). That means that the worst case complexity
+of this method is O(logn).
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+Patricia Antunes Marklund:  12 hours
+Hampus Erlandsson: 12 hours
+Irina Levkovets:  12 hours
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+At first our code displayed 0 number of matches when we first searched using a prefix. Then we had
+two other problems. The first one was an IndexOutOfBoundsException for the prefixes that didn't
+have any matches. The second problem was that when there weren't any matches, the program was still
+showing that there was one match found. All these problems have been fixed.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+-
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+In the beginning we were getting errors when we pulled the code from Gitlab and those weren't the errors
+accounted for in the lab description.
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+The autocomplete program is definitely very interesting, but we felt that it was too complex
+for our current programming level at times. It would also be useful if we had put more emphasis
+on comparators in class. We had to look up how to implement comparators to be able to do the lab
+properly.
+

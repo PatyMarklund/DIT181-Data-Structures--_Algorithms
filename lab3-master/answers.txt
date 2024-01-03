@@ -1,0 +1,136 @@
+/******************************************************************************
+** DIT181  Datastrukturer och algoritmer, LP3 2021
+** Lab 3: Plagiarism detection
+*******************************************************************************/
+In total the program took 320.66 seconds. - medium file
+In total the program took 3.52 seconds. - small file
+Group members:
+- Irina Levkovets
+- Hampus Erlandsson
+- Patricia Antunes Marklund
+
+/******************************************************************************
+** Task: Running the slow program
+**
+** 1. What is the asymptotic complexity of findSimilarity?
+**    Answer in terms of N, the total number of 5-grams in the input files.
+**    Assume that the number of duplicate occurrences of 5-grams is
+**    a small constant - that is, there is not much plagiarised text.
+******************************************************************************/
+
+O(N^2)
+N = D*K
+N^2 = D^2*K^2 = (D*K)^2
+
+/******************************************************************************
+** 2. How long did the program take on the 'small' and 'medium' directories?
+**    Is the ratio between the times what you would expect, given the complexity?
+**    Explain very briefly why.
+*******************************************************************************/
+
+In total the program took 2.32 seconds. - small file
+In total the program took 322.10 seconds. - medium file
+Expected runtime: 232 seconds
+The program runs slower than expected. This is probably due to the fact that the medium set contains
+more plagiarized text than the small set while we are assuming that the amount of plagiarized text is
+constant.
+
+/******************************************************************************
+** 3. How long do you predict the program would take to run on
+**    the 'huge' directory? Show your calculations.
+*******************************************************************************/
+T(M_predicted) - time for medium directory
+T(H_predicted) - time for huge directory
+N(M) - 200 000
+N(H) - 4 000 000
+Predicted time for the 'huge' directory: 92 800 seconds
+T(H_predicted) = (N(H) / N(M))^2 * T(M_predicted)
+T(H_predicted) = 20^2 * 232 = 92 800 seconds
+
+/******************************************************************************
+** Task: Using binary search trees
+**
+** 4. Which of the BSTs in the program usually become unbalanced?
+**    Say very briefly how you deduced this.
+******************************************************************************/
+
+The files BST becomes unbalanced, since its height is equal to its size. This means that the tree
+looks like one big "chain" of nodes which is the worst case.
+
+/******************************************************************************
+** 5 (optional). Is there a simple way to stop these trees becoming unbalanced?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** Task: Using scapegoat trees
+**
+** 6. Now what is the total asymptotic complexities of running and buildIndex
+**    and findSimilarity? Include brief justification. Again, assume a total
+**    of N 5-grams, and a constant number of duplicate occurrences of 5-grams.
+******************************************************************************/
+
+Answer: O(N(logN))
+
+Justification:
+
+buildIndex: The first 'for' loop is O(D) and the second 'for' loop is O(K), since the 'for' loops are
+nested, the total complexity is O(D*K) = O(N). However, we also have two functions within the
+nested 'for' loops, index.get and index.put which are both O(logN). That means that the total
+complexity for buildIndex is actually O(D*K*(log(N) + log(N)) = O(NlogN)
+
+findSimilarity: The complexity of the first 'for' loop is O(N) and index.get is O(logN). The other
+two 'for' are of constant O(1) complexity according to the ReadMe file, as are the functions inside
+of these two nested 'for' loops. Thus, the total complexity for findSimilarity is O(NlogN)
+
+Answer: The combined complexity for buildIndex and findSimilarity is O(NlogN + NlogN) = O(NlogN)
+
+/******************************************************************************
+** 7 (optional). What if the total similarity score is an arbitrary number S,
+**               rather than a small constant?
+******************************************************************************/
+
+[...]
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+Patricia Antunes Marklund:  15 hours
+Hampus Erlandsson:  15 hours
+Irina Levkovets:  15 hours
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+The robograder said that everything was correct.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+-
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+We have encountered a null pointer exception which we fixed later on. We have tried using a debugger
+to fix it, but we don't really know how to use it and we see this as an issue that we have to
+address.
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+The assignment was interesting but sometimes we found it way too complex for our current skill level.
+It would maybe be better if we got a task that was much simpler, but where we have to implement
+a BST from scratch ourselves.

@@ -1,0 +1,138 @@
+/******************************************************************************
+** DIT181 Datastrukturer och algoritmer, LP3 2021
+** Lab 1: Sorting, Complexity
+*******************************************************************************/
+
+Group members:
+- Patricia Antunes Marklund
+- Hampus Erlandsson
+- Irina Levkovets
+
+/******************************************************************************
+** Task: Figuring out the complexity
+**
+** 1. What is the complexity of running each of the following algorithms
+**    on each of the following kinds of inputs?
+**    You only have to decide between quadratic or faster than quadratic.
+******************************************************************************/
+
+Insertion.java on:
+
+- random inputs:      Quadratic
+- 95% sorted inputs:  Quadratic (we have looked at the results again and noticed that it was actually closer to quadratic than we previously
+thought. We have used Method 1 to check for complexity)
+- sorted inputs:      Faster than quadratic
+
+Quick.java on:
+
+- random inputs:      Faster than quadratic
+- 95% sorted inputs:  Faster than quadratic
+- sorted inputs:      Quadratic
+
+Merge.java on:
+
+- random inputs:      Faster than quadratic
+- 95% sorted inputs:  Faster than quadratic
+- sorted inputs:      Faster than quadratic
+
+/******************************************************************************
+** 2. How did you check if an algorithm had quadratic complexity or not?
+******************************************************************************/
+
+We used two to determine the complexity of the algorithms:
+
+Method 1:
+
+We looked at the predicted time for an input size if the algorithm had the quadratic complexity
+and then looked at the actual input value. Example: if it takes T time for a size of 1000, then it should take
+100T time for the size of 10 000. If the time is significantly lower than that, then the complexity
+is faster than quadratic.
+
+Method 2:
+
+We graphed the functions as scatter graphs in Excel using size as our x-axis and time as our y-axis for each column.
+Then, we used the power trend line to check for the equation of the scatter graph. If the power of the
+equation was close to 2, we knew that the function had a quadratic complexity (O(n^2)). We used method 2
+for double checking our answers.
+
+/******************************************************************************
+** Task: Improving quicksort
+**
+** 3. Do the following changes affect the complexity of quicksort
+**    on any kind of input data? If so, what is it that changes?
+******************************************************************************/
+
+Shuffling the array first:
+It improves complexity for the sorted arrays when using quicksort. The complexity is then faster
+than quadratic instead of quadratic. Since the performance is faster than quadratic when the array
+is random, by shuffling a sorted array we make the performance the same as for random arrays.
+
+
+Median-of-three pivot selection:
+This implementation changes the complexity on sorted arrays from quadratic to faster than
+quadratic. This is because the median of three prevents the pivot from being the smallest or the largest
+element in the array which would give it quadratic complexity.
+
+
+Insertion sort for small arrays:
+The complexity doesn't change for any type of input.
+
+/******************************************************************************
+** 4. What is a good cutoff to use for insertion sort?
+**    Explain briefly how you came to this answer.
+**    Remember that you should try to find the answer in a systematic way.
+******************************************************************************/
+
+Our answer is 50. We restricted our search area starting at 10 and increasing the input value by 10
+until we reached 100.Then we checked for those 10 values, comparing them with the case where we
+didn't use insertion sort by looking at the time for each of the three columns.
+
+/******************************************************************************
+** 5. Which combination of improvements gives the best performance?
+******************************************************************************/
+
+The fastest combination of improvements is when shuffleFirst is turned off, and the other two
+improvements(median of three and insertion sort for small arrays) are on.
+
+/******************************************************************************
+** Appendix: General information
+**
+** A. Approximately how many hours did you spend on the assignment?
+******************************************************************************/
+
+Patricia Antunes Marklund: 9 hours
+Hampus Erlandsson: 9 hours
+Irina Levkovets: 9 hours
+
+
+/******************************************************************************
+** B. Are there any known bugs / limitations?
+******************************************************************************/
+
+Limitation - we couldn't compare results between computers because of the difference in
+CPU performance.
+
+/******************************************************************************
+** C. Did you collaborate with any other students on this lab?
+**    If so, please write in what way you collaborated and with whom.
+**    Also include any resources (including the web) that you may
+**    may have used in creating your design.
+******************************************************************************/
+
+We didn't collaborate with any other students during this lab. We only got help from Christian to
+fix a bug.
+
+/******************************************************************************
+** D. Describe any serious problems you encountered.                    
+******************************************************************************/
+
+We have encountered some minor bugs(e.g. index out of bounds) along the way when
+implementing the median of three.
+
+/******************************************************************************
+** E. List any other comments here.
+**    Feel free to provide any feedback on how much you learned 
+**    from doing the assignment, and whether you enjoyed it.                                             
+******************************************************************************/
+
+It was a good lab for learning how to reason about complexity by looking at the benchmark.
